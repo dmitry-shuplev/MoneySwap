@@ -21,5 +21,15 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>dev.aga.sqlite</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.49.1.0</version>
+      <scope>SQLite JDBC</scope>
+
+    </dependency>
   </dependencies>
+
+
 </project>
