@@ -1,0 +1,10 @@
+CREATE TABLE Currencies (Id INTEGER AUTOINCREMENT PRIMARY KEY, Code VARCHAR, FullName VARCHAR,Sing VARCHAR);
+ 
+CREATE TABLE ExchangeRates (
+    Id INTEGER PRIMARY KEY AUTOINCRIMENT,
+    BaseCurrencyId INTEGER,                                  
+    TargetCurrencyId INTEGER,                                
+    Rate REAL,                                               
+    FOREIGN KEY (BaseCurrencyId) REFERENCES Currencies(Id),  
+    FOREIGN KEY (TargetCurrencyId) REFERENCES Currencies(Id)  
+);
