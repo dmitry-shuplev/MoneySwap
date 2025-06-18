@@ -1,0 +1,7 @@
+INSERT INTO Currencies (Code, FullName, Sign) VALUES ('RUB', 'Russian Ruble', '₽');
+INSERT INTO Currencies (Code, FullName, Sign) VALUES ('UAH', 'Ukrainian Hryvnia', '₴');
+INSERT INTO Currencies (Code, FullName, Sign) VALUES ('USD', 'United States Dollar', '$');
+INSERT INTO Currencies (Code, FullName, Sign) VALUES ('BYN', 'Belarusian Ruble', 'Br');
+INSERT INTO Currencies (Code, FullName, Sign) VALUES ('EUR', 'Euro', '€');
+INSERT INTO Currencies (Code, FullName, Sign) VALUES ('KZT', 'Kazakhstani Tenge', '₸');
+INSERT INTO Currencies (Code, FullName, Sign) VALUES ('CNY', 'Chinese Yuan', '¥');
