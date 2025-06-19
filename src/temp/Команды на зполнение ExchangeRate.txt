@@ -1,0 +1,6 @@
+INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (1, 3, 0.013);
+INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (2, 3, 0.036);
+INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (4, 3, 0.40);
+INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (5, 3, 1.18);
+INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (6, 3, 0.23);
+INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (7, 3, 0.15);
