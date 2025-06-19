@@ -6,9 +6,8 @@ import models.Currensie;
 public class App {
     public static void main(String[] args) {
 
-        Currensie currency = new Currensie();
-    currency.getByCode("RUB");
-        System.out.println(currency);
+        Currensie currency = new Currensie("KZT");
+        System.out.println(currency.toString());
     }
 }
 

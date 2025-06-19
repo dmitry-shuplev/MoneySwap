@@ -7,23 +7,30 @@ import java.sql.SQLException;
 
 public class Currensie {
     private static Connection connection = DBUtils.getConnection();
-    private PreparedStatement pstmt;
     private int id;
     private String code;
     private String fullName;
-    private String signe;
+    private String sign;
+
+    public Currensie(String code)
+    {
+        this.getByCode(code);
+    }
 
     public Currensie getByCode(String code) {
-        String queryTemplate = "SELECT INTO Currencies (Code) VALUES(?)";
-        try{
-            pstmt = connection.prepareStatement(queryTemplate);
+        String queryTemplate = "SELECT * FROM Currencies WHERE Code = ?";
+        //stub
+        if(connection == null){
+            System.out.println("Соединение не установлено");
+            return null; }
+        try(PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
             pstmt.setString(1, code);
             ResultSet result = pstmt.executeQuery();
             if(result.next()){
                 this.id = result.getInt("Id");
                 this.code = result.getString("Code");
                 this.fullName = result.getString("FullName");
-                this.signe = result.getString("Sign");
+                this.sign = result.getString("Sign");
                 return this;
             }
         }catch (SQLException e){
@@ -34,6 +41,6 @@ public class Currensie {
 
     @Override
     public String toString() {
-        return "id : " + id;
+        return "id : " + this.id + "/ " + this.code +  "/ " + this.fullName + "/ " + this.sign;
     }
 }
