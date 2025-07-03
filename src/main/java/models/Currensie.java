@@ -12,16 +12,16 @@ public class Currensie {
     private String fullName;
     private String sign;
 
-    public Currensie(String code)
+    public Currensie(String c)
     {
-        this.getByCode(code);
+        this.getByCode(c);
     }
 
     public Currensie getByCode(String code) {
         String queryTemplate = "SELECT * FROM Currencies WHERE Code = ?";
         //stub
         if(connection == null){
-            System.out.println("Соединение не установлено");
+            System.out.println("CONNECTION IS LOSE");
             return null; }
         try(PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
             pstmt.setString(1, code);

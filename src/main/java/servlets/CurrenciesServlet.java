@@ -7,11 +7,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.Currensie;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/currencies")
+@WebServlet("/currencies/*")
 public class CurrenciesServlet extends HttpServlet {
 
     @Override
@@ -21,19 +22,28 @@ public class CurrenciesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String pathInfo = request.getPathInfo();
+        if(pathInfo==null||pathInfo.equals("/")){
+//            getJsonCurrensiesList
+            System.out.println(pathInfo);
+        }
+            else{
+                Currensie currensy = new Currensie("UAH");
+            if(currensy!=null) System.out.println("CURRENSY "+ currensy.toString());
+        }
         response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.println("Servlet currencies method get is connected");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response){
 
     }
 
     @Override
-    public void destroy(){super.destroy();}
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+    }
 
 
 }
