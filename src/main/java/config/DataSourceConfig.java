@@ -9,8 +9,9 @@ public class DataSourceConfig {
     static {
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("org.sqlite.JDBC");
-        String dbPath = DataSourceConfig.class.getClassLoader().getResource("money.db").getPath();
-        ds.setUrl("jdbc:sqlite:" + dbPath);
+        //String dbPath = DataSourceConfig.class.getClassLoader().getResource("money.db").getPath();
+        //ds.setUrl("jdbc:sqlite:" + dbPath);
+        ds.setUrl("jdbc:sqlite:C:/Users/j_dim/Java_programm/MoneySwap/src/main/webapp/WEB-INF/money.db");
         dataSource = ds;
     }
 

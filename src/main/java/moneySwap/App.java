@@ -10,7 +10,7 @@ import models.Currensie;
 
 public class App {
         public static <Currencies> void main(String[] args) {
-            Currensie currency = new Currensie("RUB");
+            Currensie currency = new Currensie("USD");
             System.out.println(currency.toString());
                   }
 

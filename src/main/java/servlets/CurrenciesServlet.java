@@ -31,7 +31,7 @@ public class CurrenciesServlet extends HttpServlet {
         }
             else{
 int i = 10;
-    Currensie currensy = new Currensie("UAH");
+            Currensie currensy = new Currensie("UAH");
             System.out.println(pathInfo+"else");
         }
         response.setContentType("application/json");
