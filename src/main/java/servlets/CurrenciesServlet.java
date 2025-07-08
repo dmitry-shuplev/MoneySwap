@@ -2,6 +2,7 @@ package servlets;
 
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,11 +26,13 @@ public class CurrenciesServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
         if(pathInfo==null||pathInfo.equals("/")){
 //            getJsonCurrensiesList
-            System.out.println(pathInfo);
+            System.out.println(pathInfo+"if");
+
         }
             else{
-                Currensie currensy = new Currensie("UAH");
-            if(currensy!=null) System.out.println("CURRENSY "+ currensy.toString());
+int i = 10;
+    Currensie currensy = new Currensie("UAH");
+            System.out.println(pathInfo+"else");
         }
         response.setContentType("application/json");
 

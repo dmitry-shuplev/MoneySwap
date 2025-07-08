@@ -16,10 +16,13 @@ public class TestServlet extends HttpServlet {
         super.init(config);
     }
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<h1>Test Servlet is working!</h1>");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String page = "/test.html";
+        if (request.getServletContext().getResource(page) != null) {
+            request.getRequestDispatcher(page).forward(request, response);
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found");
+        }
     }
 
 

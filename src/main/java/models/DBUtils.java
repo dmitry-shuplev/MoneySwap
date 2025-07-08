@@ -1,19 +1,16 @@
 package models;
 
+import config.DataSourceConfig;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class DBUtils {
-    private final static String dbUrl = "jdbc:sqlite:src/main/resources/money.db";
-
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection(dbUrl);
-        } catch (Exception e) {
-            System.out.println("Ошибка загрузки базы данных: " + e.getMessage());
-        }
-        return null;
+    public static Connection getConnection() throws SQLException{
+        DataSource ds = DataSourceConfig.getDataSource();
+        return ds.getConnection();
     }
-
 }

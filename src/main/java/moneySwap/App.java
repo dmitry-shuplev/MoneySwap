@@ -9,15 +9,10 @@ import java.sql.*;
 import models.Currensie;
 
 public class App {
-        public static void main(String[] args) {
-            try {
-                InetAddress inetAddress = InetAddress.getByName("google.com");
-                var socket = new Socket(inetAddress, 80); // Используем var для определения типа сокета
-                System.out.println("Socket created: " + socket);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        public static <Currencies> void main(String[] args) {
+            Currensie currency = new Currensie("RUB");
+            System.out.println(currency.toString());
+                  }
 
 }
 
