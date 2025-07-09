@@ -41,7 +41,7 @@ public class CurrenciesServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         CurrencyDao currensyDao = new CurrencyDao();
         Currensie currency = new Currensie();
-        currency = currensyDao.getByCode("RUB");
+        currency = currensyDao.getByCode("USD");
 
         System.out.println(currency.toString());
         try (PrintWriter out = response.getWriter()) {
