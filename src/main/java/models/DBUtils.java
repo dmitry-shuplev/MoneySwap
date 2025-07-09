@@ -4,8 +4,6 @@ import config.DataSourceConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-
 import javax.sql.DataSource;
 
 public class DBUtils {

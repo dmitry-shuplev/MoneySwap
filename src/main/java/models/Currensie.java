@@ -11,29 +11,44 @@ public class Currensie {
     private String fullName;
     private String sign;
 
-    public Currensie(String c) {
-        this.getByCode(c);
+
+    public Currensie(){
+
     }
 
-    public Currensie getByCode(String code) {
-        String queryTemplate = "SELECT * FROM Currencies WHERE Code = ?";
-        int i=10;
-        try (Connection connection = DBUtils.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
-            pstmt.setString(1, code);
-            ResultSet result = pstmt.executeQuery();
-            if (result.next()) {
-                this.id = result.getInt("Id");
-                this.code = result.getString("Code");
-                this.fullName = result.getString("FullName");
-                this.sign = result.getString("Sign");
-                return this;
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+    public int getId() {
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+
 
     @Override
     public String toString() {

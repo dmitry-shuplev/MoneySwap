@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Currensie;
+import models.dao.CurrencyDao;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,17 +25,35 @@ public class CurrenciesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo();
-        if(pathInfo==null||pathInfo.equals("/")){
+        if (pathInfo == null || pathInfo.equals("/")) {
 //            getJsonCurrensiesList
-            System.out.println(pathInfo+"if");
+            System.out.println(pathInfo + "if");
+        } else {
 
+//            try {
+//                Currensie currensy = new Currensie("UAH");
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            System.out.println(pathInfo + "else");
         }
-            else{
-int i = 10;
-            Currensie currensy = new Currensie("UAH");
-            System.out.println(pathInfo+"else");
+        response.setContentType("text/html;charset=UTF-8");
+        CurrencyDao currensyDao = new CurrencyDao();
+        Currensie currency = new Currensie();
+        currency = currensyDao.getByCode("RUB");
+
+        System.out.println(currency.toString());
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html><head><title>MoneySwap</title></head>");
+            out.println("<body>");
+            out.println("<h1>Welcome to MoneySwap!</h1>");
+            out.println("<p>Currency: " + currency.toString() + "</p>");
+            out.println("<p>Это результат запроса к базе данных</p>");
+
+            out.println("</body></html>");
         }
-        response.setContentType("application/json");
 
     }
 
