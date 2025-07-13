@@ -1,4 +1,4 @@
-package servlets;
+package controllers.servlets;
 
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -18,6 +18,7 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String page = "/test.html";
+        int i = 10;
         if (request.getServletContext().getResource(page) != null) {
             request.getRequestDispatcher(page).forward(request, response);
         } else {

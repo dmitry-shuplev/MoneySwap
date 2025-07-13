@@ -1,18 +1,13 @@
 package models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class Currensie {
+public class Currensies {
     private int id;
     private String code;
     private String fullName;
     private String sign;
 
 
-    public Currensie(){
+    public Currensies(){
 
     }
 

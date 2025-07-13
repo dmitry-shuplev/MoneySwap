@@ -13,9 +13,7 @@ public class DBUtils {
     private final static int MAX_OPENED_CONNECTIONS = 20;
 
     private static BasicDataSource dataSource = new BasicDataSource();
-    //log
-    int i = 10;
-
+    
     static {
         dataSource.setUrl(DATABASE_URL);
         dataSource.setDriverClassName(SQLITE_JDBC_DRIVER);
