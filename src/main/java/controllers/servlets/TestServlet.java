@@ -6,8 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Map;
 
 @WebServlet("/test")
 public class TestServlet extends HttpServlet {
@@ -15,6 +18,7 @@ public class TestServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String page = "/test.html";
@@ -26,10 +30,17 @@ public class TestServlet extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        var parameterMap = request.getParameterMap();
+        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()){
+        System.out.println(entry.getKey()+":"+ Arrays.toString(entry.getValue()));}
+
+    }
 
 
     @Override
-    public void destroy(){
+    public void destroy() {
         super.destroy();
     }
 }
