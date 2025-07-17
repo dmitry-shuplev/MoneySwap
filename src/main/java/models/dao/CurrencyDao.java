@@ -21,12 +21,25 @@ public class CurrencyDao {
             pstmt.setString(1, code);
             ResultSet result = pstmt.executeQuery();
             if (result.next()) {
-               currency = populateCurrency(result);
+                currency = populateCurrency(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return currency;
+    }
+
+    public void addToDb(Currensies c) {
+        String queryTemplate = "INSERT INTO Currencies (Code, FullName, Sign) VALISE(?, ?, ?)";
+        try (Connection conneciton = DBUtils.getConnection();
+             PreparedStatement pstmt = conneciton.prepareStatement(queryTemplate);) {
+            pstmt.setString(1, c.getCode());
+            pstmt.setString(2, c.getFullName());
+            pstmt.setString(3, c.getSign());
+            pstmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Currensies> getAll() {
@@ -41,11 +54,11 @@ public class CurrencyDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-int i =10;
+        int i = 10;
         return currensies;
     }
 
-    private Currensies populateCurrency(ResultSet result) throws SQLException{
+    private Currensies populateCurrency(ResultSet result) throws SQLException {
         Currensies currency = new Currensies();
         currency.setId(result.getInt("Id"));
         currency.setCode(result.getString("Code"));

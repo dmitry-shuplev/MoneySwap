@@ -12,6 +12,7 @@ import models.dao.CurrencyDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Map;
 
 @WebServlet("/currencies/*")
 public class CurrensyServlet extends HttpServlet {
@@ -37,8 +38,7 @@ public class CurrensyServlet extends HttpServlet {
                 for (Currensies currency : currensies) {
                     out.println("<p>Currency: " + currency.toString() + "</p>");
                 }
-            }
-            else {
+            } else {
                 String parm = pathInfo.substring(1);
                 Currensies currency = new Currensies();
                 currency = cd.getByCode(parm);
@@ -51,13 +51,23 @@ public class CurrensyServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-
+        var params = request.getParameterMap();
+        Currensies currnesy = new Currensies();
+        currnesy.setFullName(params.get("name")[0]);
+        currnesy.setCode(params.get("code")[0]);
+        currnesy.setSign(params.get("sign")[0]);
+        CurrencyDao cd = new CurrencyDao();
+        cd.addToDb(currnesy);
     }
+
 
     @Override
     public void destroy() {
         super.destroy();
     }
-
-
 }
+
+
+
+
+
