@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 @Setter
 public class ExchangeRates {
  private int id;
- private Currensies baseCurrency;
- private Currensies targetCurency;
+ private int baseCurrency;
+ private int targetCurency;
  private BigDecimal rate;
 
  public ExchangeRates(){
