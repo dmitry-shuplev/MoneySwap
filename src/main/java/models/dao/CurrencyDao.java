@@ -30,13 +30,14 @@ public class CurrencyDao {
     }
 
     public void addToDb(Currensies c) {
-        String queryTemplate = "INSERT INTO Currencies (Code, FullName, Sign) VALISE(?, ?, ?)";
+        String queryTemplate = "INSERT INTO Currencies (Code, FullName, Sign) VALUES (?, ?, ?)";
         try (Connection conneciton = DBUtils.getConnection();
              PreparedStatement pstmt = conneciton.prepareStatement(queryTemplate);) {
             pstmt.setString(1, c.getCode());
             pstmt.setString(2, c.getFullName());
             pstmt.setString(3, c.getSign());
-            pstmt.executeQuery();
+            int i = 0;
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
