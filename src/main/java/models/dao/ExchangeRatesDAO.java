@@ -7,13 +7,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ExchangeRatesDAO {
 
     public List<ExchangeRates> getAll() {
-        List<ExchangeRates> rates = new LinkedList<>();
+        List<ExchangeRates> rates = new ArrayList<>();
         String queryTemplate = "SELECT * FROM ExchangeRates";
 
         try (Connection connection = DBUtils.getConnection();
