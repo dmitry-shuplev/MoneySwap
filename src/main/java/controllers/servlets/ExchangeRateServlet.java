@@ -1,5 +1,6 @@
 package controllers.servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ExchangeRates;
 import models.dao.ExchangeRatesDAO;
+import models.dto.ExchangeRatesDTO;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,30 +24,24 @@ public class ExchangeRateServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html><head><title>MoneySwap</title></head>");
-            out.println("<body>");
-            out.println("<h1>Welcome to MoneySwap!</h1>");
-            String pathInfo = request.getPathInfo();
-            ExchangeRatesDAO cd = new ExchangeRatesDAO();
-            if (pathInfo == null || pathInfo.equals("/")) {
-                List<ExchangeRates> rates = new LinkedList<>(cd.getAll());
-                for (ExchangeRates rate : rates) {
-                    out.println("<p>Currency: " + rate.toString() + "</p>");
-                }
-            } else {
-                //stub
-                String parm = pathInfo.substring(1);
-//                Currensies currency = new Currensies();
-//                currency = cd.getByCode(parm);
-//                out.println("<p>Currency: " + currency.toString() + "</p>");
+        String pathInfo = request.getPathInfo();
+        if (pathInfo == null || pathInfo.equals("/")) {
+            List<ExchangeRates> rates = new ExchangeRatesDAO().getAll();
+            List<ExchangeRatesDTO> ratesDTO = new LinkedList<>();
+            for (ExchangeRates rate : rates) {
+                ratesDTO.add(new ExchangeRatesDTO(rate));
             }
-            out.println("<p>Это результат запроса к базе данных</p>");
-            out.println("</body></html>");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+
+            try {
+                System.out.println("Rates size: " + ratesDTO.size());
+                new ObjectMapper().writeValue(response.getWriter(), ratesDTO);
+            } catch (IOException e) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error generating JSON response");
+                e.printStackTrace();
+            }
         }
 
     }

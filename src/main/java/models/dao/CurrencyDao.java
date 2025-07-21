@@ -8,10 +8,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CurrencyDao {
+
+    public Currensies getById(int currencyId) {
+        String queryTemplate = "SELECT * FROM Currencies WHERE Id = ?";
+        Currensies currency = new Currensies();
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
+            pstmt.setInt(1, currencyId);
+            ResultSet result = pstmt.executeQuery();
+            if (result.next()) {
+                currency = populateCurrency(result);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return currency;
+    }
 
     public Currensies getByCode(String code) {
         String queryTemplate = "SELECT * FROM Currencies WHERE Code = ?";
