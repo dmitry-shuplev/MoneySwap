@@ -1,20 +1,16 @@
 package controllers.servlets;
 
 import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.Currensies;
 import models.ExchangeRates;
-import models.dao.CurrencyDao;
-import models.dao.ExchangerRatesDAO;
+import models.dao.ExchangeRatesDAO;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,7 +31,7 @@ public class ExchangeRateServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Welcome to MoneySwap!</h1>");
             String pathInfo = request.getPathInfo();
-            ExchangerRatesDAO cd = new ExchangerRatesDAO();
+            ExchangeRatesDAO cd = new ExchangeRatesDAO();
             if (pathInfo == null || pathInfo.equals("/")) {
                 List<ExchangeRates> rates = new LinkedList<>(cd.getAll());
                 for (ExchangeRates rate : rates) {

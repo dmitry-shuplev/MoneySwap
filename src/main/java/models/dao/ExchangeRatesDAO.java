@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ExchangerRatesDAO {
+public class ExchangeRatesDAO {
 
     public List<ExchangeRates> getAll() {
         List<ExchangeRates> rates = new LinkedList<>();
@@ -34,7 +34,7 @@ public class ExchangerRatesDAO {
         ExchangeRates rate = new ExchangeRates();
         rate.setId(result.getInt("Id"));
         rate.setBaseCurrency(result.getInt("BaseCurrencyId"));
-        rate.setTargetCurency(result.getInt("BaseCurrencyId"));
+        rate.setTargetCurency(result.getInt("TargetCurrencyId"));
         rate.setRate(result.getBigDecimal("Rate"));
 
         return rate;
