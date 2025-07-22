@@ -27,8 +27,27 @@ public class ExchangeRatesDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int i = 0;
         return rates;
+    }
+
+    public ExchangeRates getExchangeRate(String base, String target) {
+        ExchangeRates rate = new ExchangeRates();
+        String queryTemplate = queryTemplate = "SELECT ExchangeRates.* FROM ExchangeRates " +
+                "JOIN Currencies AS BaseCurrencies ON BaseCurrencies.Id = ExchangeRates.BaseCurrencyId " +
+                "JOIN Currencies AS TargetCurrencies ON TargetCurrencies.Id = ExchangeRates.TargetCurrencyId " +
+                "WHERE BaseCurrencies.Code = ? AND TargetCurrencies.Code = ?";
+        try (Connection connection = DBUtils.getConnection();
+        PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
+            pstmt.setString(1,base);
+            pstmt.setString(2, target);
+            ResultSet result = pstmt.executeQuery();
+            if(result.next()){
+                rate = popularRate(result);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rate;
     }
 
     private ExchangeRates popularRate(ResultSet result) throws SQLException {
@@ -37,7 +56,6 @@ public class ExchangeRatesDAO {
         rate.setBaseCurrency(result.getInt("BaseCurrencyId"));
         rate.setTargetCurency(result.getInt("TargetCurrencyId"));
         rate.setRate(result.getBigDecimal("Rate"));
-
         return rate;
     }
 }

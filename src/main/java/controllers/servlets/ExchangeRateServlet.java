@@ -41,6 +41,12 @@ public class ExchangeRateServlet extends HttpServlet {
             } else {
                 objectMapper.writeValue(response.getWriter(), ratesDTO);
             }
+        } else {
+            String baseCode = pathInfo.substring(1, 4);
+            String targetCode = pathInfo.substring(4, 7);
+            System.out.println(baseCode + " : " + targetCode);
+            ExchangeRatesDTO rateDTO = new ExchangeRatesDTO(new ExchangeRatesDAO().getExchangeRate(baseCode, targetCode));
+            objectMapper.writeValue(response.getWriter(), rateDTO);
         }
 
     }
