@@ -5,14 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Currensies {
+public class Currencies {
     private int id;
     private String code;
     private String fullName;
     private String sign;
 
 
-    public Currensies(){
+    public Currencies(){
     }
 
 

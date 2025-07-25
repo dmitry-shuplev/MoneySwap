@@ -2,7 +2,7 @@ package models.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import models.Currensies;
+import models.Currencies;
 import models.ExchangeRates;
 import models.dao.CurrencyDao;
 import java.math.BigDecimal;
@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @Setter
 public class ExchangeRatesDTO {
     int id;
-    Currensies baseCurrensy;
-    Currensies targetCurrensy;
+    Currencies baseCurrensy;
+    Currencies targetCurrensy;
     BigDecimal rate;
 
     public ExchangeRatesDTO(ExchangeRates exchangeRates) {

@@ -8,11 +8,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ExchangeRates;
+import models.dao.CurrencyDao;
 import models.dao.ExchangeRatesDAO;
 import models.dto.ExchangeRatesDTO;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,15 @@ public class ExchangeRateServlet extends HttpServlet {
             ExchangeRatesDTO rateDTO = new ExchangeRatesDTO(new ExchangeRatesDAO().getExchangeRate(baseCode, targetCode));
             objectMapper.writeValue(response.getWriter(), rateDTO);
         }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        var params = request.getParameterMap();
+        String baseCode = params.get("base")[0];
+        String targetCode = params.get("target")[0];
+        String rate = params.get("rate")[0];
+        System.out.println(baseCode +" : "+targetCode +" : "+ rate);
+        new ExchangeRatesDAO().addToDb(baseCode, targetCode, rate);
 
     }
 

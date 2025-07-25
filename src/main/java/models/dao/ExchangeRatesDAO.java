@@ -3,6 +3,7 @@ package models.dao;
 import models.DBUtils;
 import models.ExchangeRates;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,9 +18,7 @@ public class ExchangeRatesDAO {
         List<ExchangeRates> rates = new ArrayList<>();
         String queryTemplate = "SELECT * FROM ExchangeRates";
 
-        try (Connection connection = DBUtils.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(queryTemplate);
-        ) {
+        try (Connection connection = DBUtils.getConnection(); PreparedStatement pstmt = connection.prepareStatement(queryTemplate);) {
             ResultSet result = pstmt.executeQuery();
             while (result.next()) {
                 rates.add(popularRate(result));
@@ -33,21 +32,35 @@ public class ExchangeRatesDAO {
     public ExchangeRates getExchangeRate(String base, String target) {
         ExchangeRates rate = new ExchangeRates();
         String queryTemplate = queryTemplate = "SELECT ExchangeRates.* FROM ExchangeRates " +
-                "JOIN Currencies AS BaseCurrencies ON BaseCurrencies.Id = ExchangeRates.BaseCurrencyId " +
-                "JOIN Currencies AS TargetCurrencies ON TargetCurrencies.Id = ExchangeRates.TargetCurrencyId " +
-                "WHERE BaseCurrencies.Code = ? AND TargetCurrencies.Code = ?";
-        try (Connection connection = DBUtils.getConnection();
-        PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
-            pstmt.setString(1,base);
+                "JOIN Currencies AS BaseCurrencies ON BaseCurrencies.Id = ExchangeRates.BaseCurrencyId "
+                + "JOIN Currencies AS TargetCurrencies ON TargetCurrencies.Id = ExchangeRates.TargetCurrencyId "
+                + "WHERE BaseCurrencies.Code = ? AND TargetCurrencies.Code = ?";
+        try (Connection connection = DBUtils.getConnection(); PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
+            pstmt.setString(1, base);
             pstmt.setString(2, target);
             ResultSet result = pstmt.executeQuery();
-            if(result.next()){
+            if (result.next()) {
                 rate = popularRate(result);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return rate;
+    }
+
+    public void addToDb(String base, String target, String rate) {
+        ExchangeRates exchangeRate = popularRate(base, target, rate);
+        String queryTemplate = "INSERT INTO ExchangeRates (BaseCurrencyID, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
+            pstmt.setInt(1, exchangeRate.getBaseCurrency());
+            pstmt.setInt(2, exchangeRate.getTargetCurency());
+            pstmt.setBigDecimal(3, exchangeRate.getRate());
+            pstmt.executeUpdate();
+            System.out.println("Successfully added to database.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private ExchangeRates popularRate(ResultSet result) throws SQLException {
@@ -58,4 +71,17 @@ public class ExchangeRatesDAO {
         rate.setRate(result.getBigDecimal("Rate"));
         return rate;
     }
+
+    private ExchangeRates popularRate(String baseCurrencyCode, String targetCurrencyCode, String rateValue) {
+        ExchangeRates rate = new ExchangeRates();
+        CurrencyDao currencyDao = new CurrencyDao();
+        int baseCurrencyId = currencyDao.getId(baseCurrencyCode);
+        int targetCurrencyId = currencyDao.getId(targetCurrencyCode);
+        BigDecimal rateV = new BigDecimal(rateValue);
+        rate.setBaseCurrency(baseCurrencyId);
+        rate.setTargetCurency(targetCurrencyId);
+        rate.setRate(rateV);
+        return rate;
+    }
+
 }

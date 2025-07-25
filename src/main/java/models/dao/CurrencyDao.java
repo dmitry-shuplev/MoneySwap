@@ -1,22 +1,17 @@
 package models.dao;
 
-import models.Currensies;
+import models.Currencies;
 import models.DBUtils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CurrencyDao {
 
-    public Currensies getById(int currencyId) {
+    public Currencies getById(int currencyId) {
         String queryTemplate = "SELECT * FROM Currencies WHERE Id = ?";
-        Currensies currency = new Currensies();
+        Currencies currency = new Currencies();
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
             pstmt.setInt(1, currencyId);
@@ -30,9 +25,9 @@ public class CurrencyDao {
         return currency;
     }
 
-    public Currensies getByCode(String code) {
+    public Currencies getByCode(String code) {
         String queryTemplate = "SELECT * FROM Currencies WHERE Code = ?";
-        Currensies currency = new Currensies();
+        Currencies currency = new Currencies();
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(queryTemplate);) {
             pstmt.setString(1, code);
@@ -46,7 +41,15 @@ public class CurrencyDao {
         return currency;
     }
 
-    public void addToDb(Currensies c) {
+
+    public int getId(String code){
+        Currencies currency = getByCode(code);
+        return currency.getId();
+
+    }
+
+
+    public void addToDb(Currencies c) {
         String queryTemplate = "INSERT INTO Currencies (Code, FullName, Sign) VALUES (?, ?, ?)";
         try (Connection conneciton = DBUtils.getConnection();
              PreparedStatement pstmt = conneciton.prepareStatement(queryTemplate);) {
@@ -60,9 +63,9 @@ public class CurrencyDao {
         }
     }
 
-    public List<Currensies> getAll() {
+    public List<Currencies> getAll() {
         String queryTemplate = "SELECT * FROM Currencies";
-        List<Currensies> currensies = new ArrayList<>();
+        List<Currencies> currensies = new ArrayList<>();
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(queryTemplate);
              ResultSet result = pstmt.executeQuery()) {
@@ -76,8 +79,8 @@ public class CurrencyDao {
         return currensies;
     }
 
-    private Currensies populateCurrency(ResultSet result) throws SQLException {
-        Currensies currency = new Currensies();
+    private Currencies populateCurrency(ResultSet result) throws SQLException {
+        Currencies currency = new Currencies();
         currency.setId(result.getInt("Id"));
         currency.setCode(result.getString("Code"));
         currency.setFullName(result.getString("FullName"));

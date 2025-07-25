@@ -6,13 +6,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import models.Currensies;
+import models.Currencies;
 import models.dao.CurrencyDao;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Map;
 
 @WebServlet("/currencies/*")
 public class CurrensyServlet extends HttpServlet {
@@ -34,13 +33,13 @@ public class CurrensyServlet extends HttpServlet {
             String pathInfo = request.getPathInfo();
             CurrencyDao cd = new CurrencyDao();
             if (pathInfo == null || pathInfo.equals("/")) {
-                ArrayList<Currensies> currensies = new ArrayList<>(cd.getAll());
-                for (Currensies currency : currensies) {
+                ArrayList<Currencies> currensies = new ArrayList<>(cd.getAll());
+                for (Currencies currency : currensies) {
                     out.println("<p>Currency: " + currency.toString() + "</p>");
                 }
             } else {
                 String parm = pathInfo.substring(1);
-                Currensies currency = new Currensies();
+                Currencies currency = new Currencies();
                 currency = cd.getByCode(parm);
                 out.println("<p>Currency: " + currency.toString() + "</p>");
             }
@@ -52,7 +51,7 @@ public class CurrensyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         var params = request.getParameterMap();
-        Currensies currnesy = new Currensies();
+        Currencies currnesy = new Currencies();
         currnesy.setFullName(params.get("name")[0]);
         currnesy.setCode(params.get("code")[0]);
         currnesy.setSign(params.get("sign")[0]);
