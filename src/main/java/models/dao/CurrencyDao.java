@@ -41,13 +41,11 @@ public class CurrencyDao {
         return currency;
     }
 
-
-    public int getId(String code){
+    public int getId(String code) {
         Currencies currency = getByCode(code);
         return currency.getId();
 
     }
-
 
     public void addToDb(Currencies c) {
         String queryTemplate = "INSERT INTO Currencies (Code, FullName, Sign) VALUES (?, ?, ?)";
@@ -75,7 +73,6 @@ public class CurrencyDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        int i = 10;
         return currensies;
     }
 

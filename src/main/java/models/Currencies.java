@@ -12,7 +12,7 @@ public class Currencies {
     private String sign;
 
 
-    public Currencies(){
+    public Currencies() {
     }
 
 
