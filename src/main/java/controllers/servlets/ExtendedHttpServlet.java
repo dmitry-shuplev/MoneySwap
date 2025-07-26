@@ -1,0 +1,32 @@
+package controllers.servlets;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
+
+public abstract class ExtendedHttpServlet extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String method = req.getMethod();
+// здесь req.getParameterMap().size => 0
+        if ("PATCH".equalsIgnoreCase(method)) {
+            doPatch(req, resp);
+            System.out.println("PATCH SUCCESS");
+
+        } else {
+            super.service(req, resp);
+            //log
+            System.out.println("WORK OTHER");
+        }
+    }
+
+    protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+    }
+}
+

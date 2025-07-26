@@ -63,6 +63,24 @@ public class ExchangeRatesDAO {
         }
     }
 
+    public void updateDb(String base, String target, String rate) {
+        String queryTemplate = "UPDATE ExchangeRates SET Rate = ?" +
+                " WHERE BaseCurrencyId = (SELECT Id FROM Currencies WHERE Code = ?)" +
+                " AND TargetCurrencyId = (SELECT Id FROM Currencies WHERE Code = ?)";
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(queryTemplate)) {
+            pstmt.setBigDecimal(1, new BigDecimal(rate));
+            pstmt.setString(2, base);
+            pstmt.setString(3, target);
+            int i = 10;
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     private ExchangeRates popularRate(ResultSet result) throws SQLException {
         ExchangeRates rate = new ExchangeRates();
         rate.setId(result.getInt("Id"));
@@ -83,5 +101,6 @@ public class ExchangeRatesDAO {
         rate.setRate(rateV);
         return rate;
     }
+
 
 }
