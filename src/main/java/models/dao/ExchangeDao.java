@@ -25,14 +25,12 @@ public class ExchangeDao {
     }
 
     public Exchange execute() {
-        if (!directExhange()) {
-            if (!reverseExchange()) {
-                if (!throughUSDExchange()) {
-                    return null;
-                }
-            }
-        }
-        return exchange;
+        int i = 10;
+        if (directExhange()) return exchange;
+        if (reverseExchange()) return exchange;
+        if (throughUSDExchange()) return exchange;
+
+        return null;
     }
 
     private boolean directExhange() {
