@@ -4,17 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ExchangeRates;
-import models.dao.CurrencyDao;
 import models.dao.ExchangeRatesDAO;
 import models.dto.ExchangeRatesDTO;
-
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -28,14 +23,6 @@ public class ExchangeRateServlet extends ExtendedHttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         objectMapper = new ObjectMapper();
-    }
-
-    @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setHeader("Access-Control-Allow-Origin", "*");
-        resp.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
