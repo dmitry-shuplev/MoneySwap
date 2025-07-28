@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ExchangeRates;
-import models.dao.ExchangeRatesDAO;
+import models.dao.ExchangeRatesDao;
 import models.dto.ExchangeRatesDTO;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -29,7 +29,7 @@ public class ExchangeRateServlet extends ExtendedHttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
-            List<ExchangeRates> rates = new ExchangeRatesDAO().getAll();
+            List<ExchangeRates> rates = new ExchangeRatesDao().getAll();
             List<ExchangeRatesDTO> ratesDTO = new ArrayList<>();
             for (ExchangeRates rate : rates) {
                 ratesDTO.add(new ExchangeRatesDTO(rate));
@@ -46,7 +46,7 @@ public class ExchangeRateServlet extends ExtendedHttpServlet {
             String baseCode = pathInfo.substring(1, 4);
             String targetCode = pathInfo.substring(4, 7);
             System.out.println(baseCode + " : " + targetCode);
-            ExchangeRatesDTO rateDTO = new ExchangeRatesDTO(new ExchangeRatesDAO().getExchangeRate(baseCode, targetCode));
+            ExchangeRatesDTO rateDTO = new ExchangeRatesDTO(new ExchangeRatesDao().getExchangeRate(baseCode, targetCode));
             objectMapper.writeValue(response.getWriter(), rateDTO);
         }
     }
@@ -58,7 +58,7 @@ public class ExchangeRateServlet extends ExtendedHttpServlet {
         String targetCode = params.get("target")[0];
         String rate = params.get("rate")[0];
         System.out.println(baseCode + " : " + targetCode + " : " + rate);
-        new ExchangeRatesDAO().addToDb(baseCode, targetCode, rate);
+        new ExchangeRatesDao().addToDb(baseCode, targetCode, rate);
 
     }
 
@@ -70,7 +70,7 @@ public class ExchangeRateServlet extends ExtendedHttpServlet {
         String body = request.getReader().lines().collect(Collectors.joining());
         String rate = body.split("rate=")[1].split("&")[0];
         rate = URLDecoder.decode(rate, StandardCharsets.UTF_8);
-        new ExchangeRatesDAO().updateDb(baseCode, targetCode, rate);
+        new ExchangeRatesDao().updateDb(baseCode, targetCode, rate);
         System.out.println( "PATCH Success in servler");
 
     }
