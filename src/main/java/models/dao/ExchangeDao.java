@@ -25,7 +25,6 @@ public class ExchangeDao {
     }
 
     public Exchange execute() {
-        int i = 10;
         if (directExhange()) return exchange;
         if (reverseExchange()) return exchange;
         if (throughUSDExchange()) return exchange;
@@ -51,7 +50,7 @@ public class ExchangeDao {
         if (exchangeRate.getRate() != null){
             exchange.setBaseCurrency(new CurrencyDao().getByCode(target));
             exchange.setTargetCurrency(new CurrencyDao().getByCode(base));
-            exchange.setRate(new BigDecimal(1).divide(exchangeRate.getRate()));
+            exchange.setRate(BigDecimal.ONE.divide(exchangeRate.getRate(),4,BigDecimal.ROUND_HALF_UP));
             exchange.setAmount(new BigDecimal(amount));
             exchange.setConvertedAmount(exchange.getAmount().multiply(exchange.getRate()));
             return true;
@@ -60,13 +59,13 @@ public class ExchangeDao {
     }
 
     private boolean throughUSDExchange() {
-        exchange.setBaseCurrency(new CurrencyDao().getByCode(target));
-        exchange.setTargetCurrency(new CurrencyDao().getByCode(base));
+        exchange.setBaseCurrency(new CurrencyDao().getByCode(base));
+        exchange.setTargetCurrency(new CurrencyDao().getByCode(target));
         BigDecimal baseToUsdRate = exchangeRatesDao.getExchangeRate(base, "USD").getRate();
         if (baseToUsdRate == null) return false;
         BigDecimal targetToUsdRate = exchangeRatesDao.getExchangeRate(target, "USD").getRate();
         if (targetToUsdRate == null) return false;
-        exchange.setRate(baseToUsdRate.multiply(targetToUsdRate));
+        exchange.setRate(baseToUsdRate.divide(targetToUsdRate,4,  BigDecimal.ROUND_HALF_UP));
         exchange.setAmount(new BigDecimal(amount));
         exchange.setConvertedAmount(exchange.getAmount().multiply(exchange.getRate()));
         return true;
