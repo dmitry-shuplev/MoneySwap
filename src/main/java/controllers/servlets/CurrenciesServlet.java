@@ -10,14 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import models.Currencies;
 import models.dao.CurrencyDao;
 
-import javax.xml.crypto.dsig.spec.XPathType;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/currencies/*")
-public class CurrensyServlet extends HttpServlet {
+public class CurrenciesServlet extends HttpServlet {
 private ObjectMapper objectMapper;
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -39,11 +37,6 @@ private ObjectMapper objectMapper;
             else{
                 objectMapper.writeValue(response.getWriter(), currenciesList);
             }
-        } else {
-            String code = pathInfo.substring(1);
-            Currencies currency = new Currencies();
-            currency  = new CurrencyDao().getByCode(code);
-            objectMapper.writeValue(response.getWriter(), currency);
         }
     }
 

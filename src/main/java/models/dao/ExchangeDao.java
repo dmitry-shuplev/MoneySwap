@@ -1,7 +1,6 @@
 package models.dao;
 
-import models.Currencies;
-import models.Exchange;
+import models.dto.ExchangeDto;
 import models.ExchangeRates;
 
 import java.math.BigDecimal;
@@ -10,13 +9,13 @@ public class ExchangeDao {
     private String base;
     private String target;
     private String amount;
-    Exchange exchange;
+    ExchangeDto exchange;
     ExchangeRates exchangeRate;
     ExchangeRatesDao exchangeRatesDao;
 
 
     public ExchangeDao(String base, String target, String amount) {
-        exchange = new Exchange();
+        exchange = new ExchangeDto();
         exchangeRate = new ExchangeRates();
         exchangeRatesDao = new ExchangeRatesDao();
         this.base = base;
@@ -24,7 +23,7 @@ public class ExchangeDao {
         this.amount = amount;
     }
 
-    public Exchange execute() {
+    public ExchangeDto execute() {
         int i = 10;
         if (directExchange()) return exchange;
         if (reverceExchange()) return exchange;

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet("/exchangeRates/*")
-public class ExchangeRateServlet extends ExtendedHttpServlet {
+public class ExchangeRateServlet extends ExtendedServlet {
     private ObjectMapper objectMapper;
 
     public void init(ServletConfig config) throws ServletException {
