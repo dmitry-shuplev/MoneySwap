@@ -16,7 +16,8 @@ import java.util.List;
 
 @WebServlet("/currencies/*")
 public class CurrenciesServlet extends HttpServlet {
-private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -33,8 +34,7 @@ private ObjectMapper objectMapper;
             List<Currencies> currenciesList = new ArrayList<>(new CurrencyDao().getAll());
             if (currenciesList.isEmpty()) {
                 response.getWriter().write("[]");
-            }
-            else{
+            } else {
                 objectMapper.writeValue(response.getWriter(), currenciesList);
             }
         }
