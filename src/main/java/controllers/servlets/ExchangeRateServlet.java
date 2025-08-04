@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.ExchangeRates;
 import models.dao.ExchangeRatesDao;
-import models.dto.ExchangeRatesDTO;
+import models.dto.ExchangeRatesDto;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -30,9 +30,9 @@ public class ExchangeRateServlet extends ExtendedServlet {
         String pathInfo = request.getPathInfo();
         if (pathInfo == null || pathInfo.equals("/")) {
             List<ExchangeRates> rates = new ExchangeRatesDao().getAll();
-            List<ExchangeRatesDTO> ratesDTO = new ArrayList<>();
+            List<ExchangeRatesDto> ratesDTO = new ArrayList<>();
             for (ExchangeRates rate : rates) {
-                ratesDTO.add(new ExchangeRatesDTO(rate));
+                ratesDTO.add(new ExchangeRatesDto(rate));
             }
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
@@ -46,7 +46,7 @@ public class ExchangeRateServlet extends ExtendedServlet {
             String baseCode = pathInfo.substring(1, 4);
             String targetCode = pathInfo.substring(4, 7);
             System.out.println(baseCode + " : " + targetCode);
-            ExchangeRatesDTO rateDTO = new ExchangeRatesDTO(new ExchangeRatesDao().getExchangeRate(baseCode, targetCode));
+            ExchangeRatesDto rateDTO = new ExchangeRatesDto(new ExchangeRatesDao().getExchangeRate(baseCode, targetCode));
             objectMapper.writeValue(response.getWriter(), rateDTO);
         }
     }

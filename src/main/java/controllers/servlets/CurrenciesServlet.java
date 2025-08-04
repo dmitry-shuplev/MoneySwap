@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Currencies;
 import models.dao.CurrencyDao;
+import validators.Validator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,8 +34,11 @@ public class CurrenciesServlet extends HttpServlet {
         if (pathInfo == null || pathInfo.equals("/")) {
             List<Currencies> currenciesList = new ArrayList<>(new CurrencyDao().getAll());
             if (currenciesList.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("[]");
+
             } else {
+                response.setStatus(HttpServletResponse.SC_OK);
                 objectMapper.writeValue(response.getWriter(), currenciesList);
             }
         }
@@ -45,7 +49,13 @@ public class CurrenciesServlet extends HttpServlet {
         var params = request.getParameterMap();
         Currencies currnesy = new Currencies();
         currnesy.setFullName(params.get("name")[0]);
-        currnesy.setCode(params.get("code")[0]);
+        String code = params.get("code")[0];
+        if (new Validator().isCodeValid(code)) {
+            currnesy.setCode(code);
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
         currnesy.setSign(params.get("sign")[0]);
         CurrencyDao cd = new CurrencyDao();
         cd.addToDb(currnesy);

@@ -9,13 +9,13 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ExchangeRatesDTO {
+public class ExchangeRatesDto {
     int id;
     Currencies baseCurrensy;
     Currencies targetCurrensy;
     BigDecimal rate;
 
-    public ExchangeRatesDTO(ExchangeRates exchangeRates) {
+    public ExchangeRatesDto(ExchangeRates exchangeRates) {
         id = exchangeRates.getId();
         baseCurrensy = new CurrencyDao().getById(exchangeRates.getBaseCurrency());
         targetCurrensy = new CurrencyDao().getById(exchangeRates.getTargetCurency());
