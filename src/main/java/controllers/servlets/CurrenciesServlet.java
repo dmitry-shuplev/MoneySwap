@@ -9,8 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Currencies;
 import models.dao.CurrencyDao;
-import validators.Validator;
-
+import services.Validator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,6 @@ public class CurrenciesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String pathInfo = request.getPathInfo();
         response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
         if (pathInfo == null || pathInfo.equals("/")) {
             List<Currencies> currenciesList = new ArrayList<>(new CurrencyDao().getAll());
             if (currenciesList.isEmpty()) {
