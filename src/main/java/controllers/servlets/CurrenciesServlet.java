@@ -26,19 +26,13 @@ public class CurrenciesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String pathInfo = request.getPathInfo();
-        response.setStatus(HttpServletResponse.SC_OK);
-        if (pathInfo == null || pathInfo.equals("/")) {
-            List<Currencies> currenciesList = new ArrayList<>(new CurrencyDao().getAll());
-            if (currenciesList.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("[]");
-
-            } else {
+            try {
+                List<Currencies> currenciesList = new ArrayList<>(new CurrencyDao().getAll());
                 response.setStatus(HttpServletResponse.SC_OK);
                 objectMapper.writeValue(response.getWriter(), currenciesList);
+            } catch (Exception e) {
+             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
-        }
     }
 
     @Override

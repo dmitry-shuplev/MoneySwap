@@ -27,10 +27,12 @@ public ObjectMapper objectMapper;
        String targetCode = request.getParameter("target");
        String amount = request.getParameter("amount");
        ExchangeDao exchangeDao = new ExchangeDao(baseCode, targetCode, amount);
-       ExchangeDto exchange = exchangeDao.execute();
+      //stub
+       // ExchangeDto exchange = exchangeDao.execute();
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-       objectMapper.writeValue(response.getWriter(), exchange);
+        //stub
+//       objectMapper.writeValue(response.getWriter(), exchange);
     }
 }

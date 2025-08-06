@@ -47,7 +47,7 @@ public class ExchangeRatesDao {
         return rate;
     }
 
-    public void addToDb(String base, String target, String rate) {
+    public void addToDb(String base, String target, String rate) throws SQLException{
         ExchangeRates exchangeRate = popularRate(base, target, rate);
         String queryTemplate = "INSERT INTO ExchangeRates (BaseCurrencyID, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
         try (Connection connection = DBUtils.getConnection();
@@ -89,7 +89,7 @@ public class ExchangeRatesDao {
         return rate;
     }
 
-    private ExchangeRates popularRate(String baseCurrencyCode, String targetCurrencyCode, String rateValue) {
+    private ExchangeRates popularRate(String baseCurrencyCode, String targetCurrencyCode, String rateValue) throws SQLException  {
         ExchangeRates rate = new ExchangeRates();
         CurrencyDao currencyDao = new CurrencyDao();
         int baseCurrencyId = currencyDao.getId(baseCurrencyCode);

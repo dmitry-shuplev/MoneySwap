@@ -4,6 +4,7 @@ import models.dto.ExchangeDto;
 import models.ExchangeRates;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public class ExchangeDao {
     private String base;
@@ -23,7 +24,7 @@ public class ExchangeDao {
         this.amount = amount;
     }
 
-    public ExchangeDto execute() {
+    public ExchangeDto execute() throws SQLException {
         int i = 10;
         if (directExchange()) return exchange;
         if (reverceExchange()) return exchange;
@@ -31,7 +32,7 @@ public class ExchangeDao {
         return null;
     }
 
-    private boolean directExchange() {
+    private boolean directExchange() throws SQLException {
         exchangeRate = exchangeRatesDao.getExchangeRate(base, target);
         if (exchangeRate.getRate() != null) {
             setExchangeParametrs(base, target, exchangeRate.getRate());
@@ -40,7 +41,7 @@ public class ExchangeDao {
         return false;
     }
 
-    private boolean reverceExchange(){
+    private boolean reverceExchange() throws SQLException{
         exchangeRate = exchangeRatesDao.getExchangeRate(target, base);
         if (exchangeRate.getRate() != null) {
             BigDecimal reverseRate = BigDecimal.ONE.divide(exchangeRate.getRate(), 4, BigDecimal.ROUND_HALF_UP);
@@ -50,7 +51,7 @@ public class ExchangeDao {
         return false;
     }
 
-    private boolean throughUSDExchange() {
+    private boolean throughUSDExchange() throws SQLException{
         BigDecimal targetToUsdRate = exchangeRatesDao.getExchangeRate(target, "USD").getRate();
         BigDecimal baseToUsdRate = exchangeRatesDao.getExchangeRate(base, "USD").getRate();
         if (targetToUsdRate != null && baseToUsdRate != null) {
@@ -61,7 +62,7 @@ public class ExchangeDao {
         return false;
     }
 
-    private void setExchangeParametrs(String from, String to, BigDecimal rate) {
+    private void setExchangeParametrs(String from, String to, BigDecimal rate) throws SQLException {
         exchange.setBaseCurrency(new CurrencyDao().getByCode(from));
         exchange.setTargetCurrency(new CurrencyDao().getByCode(to));
         exchange.setAmount(new BigDecimal(amount));

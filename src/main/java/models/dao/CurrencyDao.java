@@ -25,7 +25,7 @@ public class CurrencyDao {
         return currency;
     }
 
-    public Currencies getByCode(String code) {
+    public Currencies getByCode(String code) throws SQLException{
         String queryTemplate = "SELECT * FROM Currencies WHERE Code = ?";
         Currencies currency = new Currencies();
         try (Connection connection = DBUtils.getConnection();
@@ -35,13 +35,13 @@ public class CurrencyDao {
             if (result.next()) {
                 currency = populateCurrency(result);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new SQLException(e.getMessage(), e);
         }
         return currency;
     }
 
-    public int getId(String code) {
+    public int getId(String code) throws SQLException {
         Currencies currency = getByCode(code);
         return currency.getId();
 
@@ -61,7 +61,7 @@ public class CurrencyDao {
         }
     }
 
-    public List<Currencies> getAll() {
+    public List<Currencies> getAll() throws SQLException {
         String queryTemplate = "SELECT * FROM Currencies";
         List<Currencies> currensies = new ArrayList<>();
         try (Connection connection = DBUtils.getConnection();
@@ -71,7 +71,7 @@ public class CurrencyDao {
                 currensies.add(populateCurrency(result));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException(e.getMessage(), e);
         }
         return currensies;
     }

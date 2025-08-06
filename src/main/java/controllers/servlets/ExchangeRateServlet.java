@@ -58,7 +58,8 @@ public class ExchangeRateServlet extends ExtendedServlet {
         String targetCode = params.get("target")[0];
         String rate = params.get("rate")[0];
         System.out.println(baseCode + " : " + targetCode + " : " + rate);
-        new ExchangeRatesDao().addToDb(baseCode, targetCode, rate);
+        //stub
+        //new ExchangeRatesDao().addToDb(baseCode, targetCode, rate);
 
     }
 
