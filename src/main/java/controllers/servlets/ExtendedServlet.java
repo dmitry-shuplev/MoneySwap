@@ -10,11 +10,10 @@ public abstract class ExtendedServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String method = req.getMethod();
-// здесь req.getParameterMap().size => 0
         if ("PATCH".equalsIgnoreCase(method)) {
             doPatch(req, resp);
+           //log
             System.out.println("PATCH SUCCESS");
-
         } else {
             super.service(req, resp);
             //log
