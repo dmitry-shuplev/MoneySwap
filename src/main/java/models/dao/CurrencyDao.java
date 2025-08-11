@@ -52,7 +52,7 @@ public class CurrencyDao {
         try (Connection conneciton = DBUtils.getConnection();
              PreparedStatement pstmt = conneciton.prepareStatement(queryTemplate);) {
             pstmt.setString(1, c.getCode());
-            pstmt.setString(2, c.getFullName());
+            pstmt.setString(2, c.getName());
             pstmt.setString(3, c.getSign());
             int i = 0;
             pstmt.executeUpdate();
@@ -80,7 +80,7 @@ public class CurrencyDao {
         Currencies currency = new Currencies();
         currency.setId(result.getInt("Id"));
         currency.setCode(result.getString("Code"));
-        currency.setFullName(result.getString("FullName"));
+        currency.setName(result.getString("FullName"));
         currency.setSign(result.getString("Sign"));
         return currency;
     }

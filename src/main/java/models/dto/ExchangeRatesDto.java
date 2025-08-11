@@ -11,14 +11,14 @@ import java.math.BigDecimal;
 @Setter
 public class ExchangeRatesDto {
     int id;
-    Currencies baseCurrensy;
-    Currencies targetCurrensy;
+    Currencies baseCurrency;
+    Currencies targetCurrency;
     BigDecimal rate;
 
     public ExchangeRatesDto(ExchangeRates exchangeRates) {
         id = exchangeRates.getId();
-        baseCurrensy = new CurrencyDao().getById(exchangeRates.getBaseCurrency());
-        targetCurrensy = new CurrencyDao().getById(exchangeRates.getTargetCurency());
+        baseCurrency = new CurrencyDao().getById(exchangeRates.getBaseCurrency());
+        targetCurrency = new CurrencyDao().getById(exchangeRates.getTargetCurency());
         rate = exchangeRates.getRate();
     }
 

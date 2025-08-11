@@ -8,7 +8,7 @@ import lombok.Setter;
 public class Currencies {
     private int id;
     private String code;
-    private String fullName;
+    private String name;
     private String sign;
 
 
@@ -16,8 +16,5 @@ public class Currencies {
     }
 
 
-    @Override
-    public String toString() {
-        return "id : " + this.id + "/ " + this.code + "/ " + this.fullName + "/ " + this.sign;
-    }
+
 }

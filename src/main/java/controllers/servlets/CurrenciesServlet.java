@@ -39,7 +39,7 @@ public class CurrenciesServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         var params = request.getParameterMap();
         Currencies currnesy = new Currencies();
-        currnesy.setFullName(params.get("name")[0]);
+        currnesy.setName(params.get("name")[0]);
         String code = params.get("code")[0];
         if (new Validator().isCodeValid(code)) {
             currnesy.setCode(code);
