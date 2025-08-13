@@ -44,7 +44,6 @@ public class CurrencyDao {
     public int getId(String code) throws SQLException {
         Currencies currency = getByCode(code);
         return currency.getId();
-
     }
 
     public void addToDb(Currencies c) {
@@ -54,7 +53,7 @@ public class CurrencyDao {
             pstmt.setString(1, c.getCode());
             pstmt.setString(2, c.getName());
             pstmt.setString(3, c.getSign());
-            int i = 0;
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

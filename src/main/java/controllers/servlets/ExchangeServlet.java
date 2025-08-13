@@ -11,28 +11,33 @@ import models.dto.ExchangeDto;
 import models.dao.ExchangeDao;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/exchange")
 public class ExchangeServlet extends HttpServlet {
-public ObjectMapper objectMapper;
+    public ObjectMapper objectMapper;
+
     @Override
-    public void init(ServletConfig config)throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
         super.init(config);
         objectMapper = new ObjectMapper();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-       String baseCode = request.getParameter("base");
-       String targetCode = request.getParameter("target");
-       String amount = request.getParameter("amount");
-       ExchangeDao exchangeDao = new ExchangeDao(baseCode, targetCode, amount);
-      //stub
-       // ExchangeDto exchange = exchangeDao.execute();
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        //stub
-//       objectMapper.writeValue(response.getWriter(), exchange);
+        String baseCode = request.getParameter("from");
+        String targetCode = request.getParameter("to");
+        String amount = request.getParameter("amount");
+        ExchangeDao exchangeDao = new ExchangeDao(baseCode, targetCode, amount);
+        try {
+            ExchangeDto exchange = exchangeDao.execute();
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json");
+            objectMapper.writeValue(response.getWriter(), exchange);
+        } catch (SQLException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
+
     }
 }
