@@ -38,7 +38,9 @@ public class ExchangeRatesServlet extends HttpServlet {
             }
             if (ratesDTO.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("[]");
+                String jsonResponse = "{\"message\": \"Список валют пуст.\"}";
+                objectMapper.writeValue(response.getWriter(), jsonResponse);
+
             } else {
                 response.setStatus(HttpServletResponse.SC_OK);
                 objectMapper.writeValue(response.getWriter(), ratesDTO);

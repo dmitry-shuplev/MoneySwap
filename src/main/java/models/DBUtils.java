@@ -23,8 +23,6 @@ public class DBUtils {
     }
 
     public static Connection getConnection() throws SQLException {
-
-
         return dataSource.getConnection();
     }
 

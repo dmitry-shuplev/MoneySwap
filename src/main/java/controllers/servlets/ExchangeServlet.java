@@ -31,12 +31,20 @@ public class ExchangeServlet extends HttpServlet {
         ExchangeDao exchangeDao = new ExchangeDao(baseCode, targetCode, amount);
         try {
             ExchangeDto exchange = exchangeDao.execute();
+            if(exchange == null){
+                response.setContentType("application/json");
+                String jsonResponse = "{\"message\": \"Невозможно произвести обмен.\"}";
+                objectMapper.writeValue(response.getWriter(), jsonResponse);
+            }
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
             objectMapper.writeValue(response.getWriter(), exchange);
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();
+            response.setContentType("application/json");
+            String jsonResponse = "{\"message\": \"Ошибка базы  данных.\"}";
+            objectMapper.writeValue(response.getWriter(), jsonResponse);
         }
 
     }

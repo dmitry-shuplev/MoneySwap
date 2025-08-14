@@ -25,7 +25,6 @@ public class ExchangeDao {
     }
 
     public ExchangeDto execute() throws SQLException {
-        int i = 10;
         if (directExchange()) return exchange;
         if (reverceExchange()) return exchange;
         if (throughUSDExchange()) return exchange;

@@ -39,9 +39,15 @@ public class CurrencyServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setContentType("application/json");
+                String jsonResponse = "{\"message\": \"Ошибка базы данных.\"}";
+                objectMapper.writeValue(response.getWriter(), jsonResponse);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType("application/json");
+            String jsonResponse = "{\"message\": \"Ошибка ввода.\"}";
+            objectMapper.writeValue(response.getWriter(), jsonResponse);
         }
     }
 

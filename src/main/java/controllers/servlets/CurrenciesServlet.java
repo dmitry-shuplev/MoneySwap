@@ -31,12 +31,15 @@ public class CurrenciesServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
                 objectMapper.writeValue(response.getWriter(), currenciesList);
             } catch (Exception e) {
-             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setContentType("application/json");
+                String jsonResponse = "{\"message\": \"Валюта не найдена\"}";
+                response.getWriter().write(jsonResponse);
             }
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         var params = request.getParameterMap();
         Currencies currnesy = new Currencies();
         currnesy.setName(params.get("name")[0]);
@@ -45,6 +48,9 @@ public class CurrenciesServlet extends HttpServlet {
             currnesy.setCode(code);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType("application/json");
+            String jsonResponse = "{\"message\": \"Ошибка вводв валюты\"}";
+            objectMapper.writeValue(response.getWriter(), jsonResponse);
             return;
         }
         currnesy.setSign(params.get("sign")[0]);
